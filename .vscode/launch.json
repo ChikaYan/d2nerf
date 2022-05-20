@@ -1,0 +1,256 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "train_original_no_warp",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/debug/original_no_warp",
+                "--gin_bindings=\"data_dir='./data/hypernerf/vrig-chicken/'\"",
+                "--gin_configs",
+                "configs/hypernerf_vrig_no_warp.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_original",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/debug/original",
+                "--gin_bindings=\"data_dir='./data/kubric_single_car_rand/'\"",
+                "--gin_configs",
+                "configs/test_local_gt.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_original_large",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/debug/original",
+                "--gin_bindings=\"data_dir='./data/pick_drop/'\"",
+                "--gin_configs",
+                "configs/test_local_large.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_decompose_lf",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "debug/decompose",
+                "--gin_bindings=\"data_dir='./data/my_hand_large_motion/'\"",
+                "--gin_configs",
+                "configs/decompose/train_lf.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_kubric",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "debug/decompose/kubric",
+                "--gin_bindings=\"data_dir='./data/kubric_single_car/'\"",
+                "--gin_configs",
+                "configs/decompose/train_kubric.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_decompose_add_blend",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/debug/decompose",
+                "--gin_bindings=\"data_dir='./data/my_hand_large_motion/'\"",
+                "--gin_configs",
+                "configs/decompose/train_add_blend.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_tune_debug",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/hypernerf/broom/debug_nan",
+                "--gin_bindings=\"data_dir='./data/hypernerf/broom/'\"",
+                "--gin_configs",
+                "configs/decompose/tune/tune_debug.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_decompose_cdw",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/debug/decompose",
+                "--gin_bindings=\"data_dir='./data/peopleInShade/'\"",
+                "--gin_configs",
+                "configs/decompose/train_cdw.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_separate",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--base_folder",
+                "log/debug/sep_decompose",
+                "--gin_bindings=\"data_dir='./data/kubric_car_sfm/'\"",
+                "--gin_configs",
+                "configs/separate/train.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "train_static",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/debug/pure_static",
+                "--gin_bindings=\"data_dir='./data/kubric_car_static/'\"",
+                "--gin_configs",
+                "configs/test_decompose.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "eval_original",
+            "type": "python",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/my_hand/original_no_time",
+                "--gin_bindings=\"data_dir='./data/my_hand/'\"",
+                "--gin_configs",
+                "configs/eval_local.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "eval_original_fix_view",
+            "type": "python",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/kubric_car/original_gt_cam",
+                "--gin_bindings=\"data_dir='./data/kubric_car/'\"",
+                "--gin_configs",
+                "configs/eval_local_fix_view.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "eval_decompose_debug",
+            "type": "python",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/kubric_single_car_rand_v2/test_stability_v1/",
+                "--gin_bindings=\"data_dir='./data/kubric_single_car_rand_v2/'\"",
+                "--gin_configs",
+                "configs/decompose/train_debug.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "eval_kubric",
+            "type": "python",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/kubric_single_car/decompose_v2",
+                "--gin_bindings=\"data_dir='./data/kubric_single_car/'\"",
+                "--gin_configs",
+                "configs/decompose/train_kubric.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "eval_cdw",
+            "type": "python",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/cdw/peopleInShade/decompose_v7",
+                "--gin_bindings=\"data_dir='./data/cdw/peopleInShade/'\"",
+                "--gin_configs",
+                "configs/decompose/train_cdw.gin",
+                "--debug"
+            ]
+        },
+        {
+            "name": "eval_tune",
+            "type": "python",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--base_folder",
+                "log/kubric_multi_car_rand/tune/small_skewness_2_gt/003",
+                "--gin_bindings=\"data_dir='./data/kubric_multi_car_rand/'\"",
+                "--gin_configs",
+                "configs/decompose/tune/small_skewness_2_gt/003.gin",
+                "--debug"
+            ]
+        },
+    ]
+}

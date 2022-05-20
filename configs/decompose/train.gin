@@ -1,0 +1,82 @@
+include 'configs/test_local.gin'
+
+image_scale = 8
+batch_size = 1024
+max_steps = 10000
+
+TrainConfig.use_decompose_nerf = True
+
+StaticNerfModel.num_coarse_samples = 64
+StaticNerfModel.num_fine_samples = 64
+StaticNerfModel.use_viewdirs = True
+StaticNerfModel.use_stratified_sampling = True
+StaticNerfModel.norm_type = 'none'
+StaticNerfModel.activation = @jax.nn.relu
+
+DecomposeNerfModel.num_coarse_samples = 64
+DecomposeNerfModel.num_fine_samples = 64
+DecomposeNerfModel.use_viewdirs = True
+DecomposeNerfModel.use_stratified_sampling = True
+DecomposeNerfModel.norm_type = 'none'
+DecomposeNerfModel.activation = @jax.nn.relu
+DecomposeNerfModel.hyper_point_min_deg = %hyper_point_min_deg
+DecomposeNerfModel.hyper_point_max_deg = %hyper_point_max_deg
+DecomposeNerfModel.hyper_slice_method = 'bendy_sheet' # 'none' # 
+DecomposeNerfModel.hyper_sheet_mlp_cls = @HyperSheetMLP
+DecomposeNerfModel.hyper_use_warp_embed = True
+DecomposeNerfModel.use_warp = True
+DecomposeNerfModel.blendw_out_depth = 7
+
+TrainConfig.print_every = 100
+TrainConfig.log_every = 100
+TrainConfig.histogram_every = 100
+TrainConfig.save_every = 2000
+TrainConfig.use_background_loss = False
+TrainConfig.use_bg_decompose_loss = False
+TrainConfig.bg_decompose_loss_weight = 1.0
+# TrainConfig.blendw_loss_weight = 0.001
+# TrainConfig.blendw_loss_weight_schedule = ('constant', 0.001)
+TrainConfig.blendw_loss_weight_schedule = {
+  'type': 'linear',
+  'initial_value': 0.001,
+  'final_value': 0.5,
+  'num_steps': 200000,
+}
+TrainConfig.blendw_loss_skewness = 1.25
+TrainConfig.blendw_pixel_loss_weight_schedule = ('constant', 0.0)
+TrainConfig.blendw_ray_loss_weight = 0.001
+TrainConfig.blendw_ray_loss_threshold = .5
+TrainConfig.use_ex_ray_entropy_loss = True
+TrainConfig.blendw_area_loss_weight = 0.0001
+TrainConfig.shadow_loss_threshold = 0.2
+TrainConfig.shadow_loss_weight = 0.
+TrainConfig.blendw_sample_loss_weight = 0.
+
+# initialize static model for some iterations first
+TrainConfig.fix_blendw_steps = 0
+TrainConfig.force_blendw_steps = 0
+TrainConfig.force_blendw_loss_weight = .1
+TrainConfig.fix_blendw_value = 0.15
+
+DecomposeNerfModel.blend_mode = 'nsff'
+DecomposeNerfModel.extra_renders = ('static_full', 'dynamic', 'blendw')
+DecomposeNerfModel.deformation_render_scale = 2.0
+
+EvalConfig.eval_once = True
+EvalConfig.save_output = True
+EvalConfig.num_train_eval = -1
+EvalConfig.num_val_eval = -1
+EvalConfig.num_test_eval = -1
+EvalConfig.normalise_rendering = False
+EvalConfig.use_tsne = False
+
+EvalConfig.fix_time_eval = True
+EvalConfig.num_fixed_time_views = -1
+EvalConfig.use_train_views = True
+EvalConfig.fix_view_eval = True
+EvalConfig.num_fixed_view_frames = -1
+EvalConfig.niter_runtime_eval = 1000
+EvalConfig.nimg_runtime_eval = 3
+EvalConfig.ex_runtime_eval_targets = ('000031', '000111', '000133')
+
+NerfiesDataSource.use_gt_camera = False

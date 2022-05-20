@@ -1,0 +1,94 @@
+include 'configs/defaults.gin'
+
+image_scale = 4
+batch_size = 512
+eval_batch_size = 8096
+
+elastic_init_weight = 0.01
+max_steps = 100000
+lr_decay_steps = 500000
+init_lr = 1e-3
+final_lr = 1e-5
+
+NerfModel.num_coarse_samples = 64
+NerfModel.num_fine_samples = 64
+NerfModel.use_viewdirs = True
+NerfModel.use_stratified_sampling = True
+
+NerfModel.norm_type = 'none'
+NerfModel.activation = @jax.nn.relu
+
+spatial_point_min_deg = 0
+spatial_point_max_deg = 8
+
+# Hyper config.
+hyper_num_dims = 4
+hyper_point_min_deg = 0
+hyper_point_max_deg = 1
+NerfModel.hyper_point_min_deg = %hyper_point_min_deg
+NerfModel.hyper_point_max_deg = %hyper_point_max_deg
+TrainConfig.hyper_alpha_schedule = {
+  'type': 'piecewise',
+  'schedules': [
+    (1000, ('constant', 0.0)),
+    (0, ('linear', 0.0, %hyper_point_max_deg, 10000))
+  ],
+}
+
+
+NerfModel.hyper_slice_method = 'bendy_sheet'
+# this disables time coordinate input
+# NerfModel.hyper_slice_method = 'none'
+NerfModel.hyper_sheet_mlp_cls = @HyperSheetMLP
+NerfModel.hyper_use_warp_embed = True
+
+hyper_sheet_min_deg = 0
+hyper_sheet_max_deg = 6
+HyperSheetMLP.min_deg = %hyper_sheet_min_deg
+HyperSheetMLP.max_deg = %hyper_sheet_max_deg
+HyperSheetMLP.output_channels = %hyper_num_dims
+TrainConfig.hyper_sheet_alpha_schedule = ('constant', %hyper_sheet_max_deg)
+
+NerfModel.use_warp = True
+warp_min_deg = 0
+warp_max_deg = 4
+TrainConfig.warp_alpha_schedule = {
+  'type': 'linear',
+  'initial_value': %warp_min_deg,
+  'final_value': %warp_max_deg,
+  'num_steps': 50000,
+}
+
+TrainConfig.use_weight_norm = False
+TrainConfig.use_elastic_loss = False
+TrainConfig.use_background_loss = False
+TrainConfig.background_loss_weight = 1.0
+
+TrainConfig.use_warp_reg_loss = True
+TrainConfig.warp_reg_loss_weight = 0.001
+TrainConfig.use_hyper_reg_loss = False
+TrainConfig.hyper_reg_loss_weight = 0.001
+
+TrainConfig.print_every = 100
+TrainConfig.log_every = 100
+TrainConfig.histogram_every = 100
+TrainConfig.save_every = 1000
+EvalConfig.nimg_runtime_eval = 5
+EvalConfig.niter_runtime_eval = 10000
+
+EvalConfig.eval_once = True
+EvalConfig.save_output = True
+EvalConfig.num_train_eval = -1
+EvalConfig.num_val_eval = -1
+EvalConfig.num_test_eval = -1
+EvalConfig.extra_tests = ('freeze-test',)
+EvalConfig.normalise_rendering = False
+EvalConfig.use_tsne = False
+
+EvalConfig.fix_time_eval = True
+EvalConfig.num_fixed_time_views = -1
+EvalConfig.use_train_views = True
+EvalConfig.fix_view_eval = True
+EvalConfig.num_fixed_view_frames = -1
+
+NerfiesDataSource.use_gt_camera = False

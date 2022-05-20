@@ -1,0 +1,81 @@
+include 'configs/decompose/train.gin'
+
+image_scale = 2
+max_steps = 100000
+
+NerfiesDataSource.use_gt_camera = False
+
+DecomposeNerfModel.handle_motion_blur = False
+####################################
+StaticNerfModel.use_viewdirs = True
+####################################
+DecomposeNerfModel.use_viewdirs = True
+DecomposeNerfModel.extra_renders = ('static', 'dynamic', 'blendw', 'mask') # 'shadow', 'regular_no_shadow'
+DecomposeNerfModel.blend_mode = 'add'
+DecomposeNerfModel.use_sample_at_infinity = True
+DecomposeNerfModel.use_shadow_model = False
+
+# TrainConfig.blendw_loss_weight_schedule = ('constant', 0.)
+TrainConfig.blendw_loss_weight_schedule = {
+  'type': 'exp_increase',
+  'initial_value': 0.00001,
+  'final_value': 0.1,
+  'num_steps': 75000 #%max_steps,
+}
+TrainConfig.blendw_loss_skewness = 2.0
+
+# TrainConfig.blendw_pixel_loss_weight_schedule = {
+#   'type': 'exp_increase',
+#   'initial_value': 1e-06,
+#   'final_value': 0.01,
+#   'num_steps': 100000,
+#   }
+# TrainConfig.blendw_pixel_loss_skewness = 1.0
+
+TrainConfig.blendw_ray_loss_weight = 0.
+TrainConfig.blendw_ray_loss_threshold = .5
+TrainConfig.use_ex_ray_entropy_loss = False
+TrainConfig.blendw_area_loss_weight = 0.0001
+TrainConfig.shadow_loss_threshold = 0.2
+TrainConfig.shadow_loss_weight = 0.
+TrainConfig.blendw_sample_loss_weight = 0.
+
+DecomposeNerfModel.separate_shadow_model = True
+# TrainConfig.shadow_r_loss_weight = ('constant', 0.01)
+TrainConfig.shadow_r_loss_weight = {
+  'type': 'linear',
+  'initial_value': 0.1,
+  'final_value': 0.1,
+  'num_steps': 100000 #%max_steps,
+}
+TrainConfig.shadow_r_l2_loss_weight = 0.01
+DecomposeNerfModel.sigma_threshold = 0.1
+DecomposeNerfModel.shadow_r_shift = 0.
+
+EvalConfig.niter_runtime_eval = 10000
+EvalConfig.nimg_runtime_eval = 5
+EvalConfig.ex_runtime_eval_targets = ()
+
+TrainConfig.save_every = 10000
+
+
+# Evaluation options
+DecomposeNerfModel.blendw_mask_threshold = 0.5
+EvalConfig.subname = 'eval'
+EvalConfig.normalise_rendering = False
+
+EvalConfig.num_train_eval = -1
+EvalConfig.num_val_eval = -1
+EvalConfig.num_test_eval = -1
+EvalConfig.keep_gif_only = True
+
+EvalConfig.save_output = True
+EvalConfig.eval_once = True
+
+EvalConfig.fix_time_eval = False
+EvalConfig.num_fixed_time_views = -1
+EvalConfig.use_train_views = True
+EvalConfig.fix_view_eval = False
+EvalConfig.num_fixed_view_frames = -1
+EvalConfig.novel_view_eval = False
+
