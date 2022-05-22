@@ -1,0 +1,33 @@
+include './configs/decompose/train_lf_template.gin'
+
+NerfiesDataSource.use_gt_camera = False
+
+DecomposeNerfModel.use_shadow_model = False
+
+TrainConfig.blendw_loss_weight_schedule = {
+  'type': 'exp_increase',
+  'initial_value': 0.0005,
+  'final_value': 1.0,
+  'num_steps': 100000,
+  }
+TrainConfig.blendw_loss_skewness = 2.875
+
+TrainConfig.blendw_area_loss_weight = 0.0
+
+EvalConfig.num_train_eval = -1
+
+EvalConfig.num_test_eval = -1
+
+max_steps = 100000
+
+EvalConfig.niter_runtime_eval = 25000
+
+
+EvalConfig.fix_time_eval = True
+EvalConfig.num_fixed_time_views = -1
+EvalConfig.fixed_time_id = 8
+EvalConfig.use_train_views = True
+EvalConfig.fix_view_eval = True
+EvalConfig.num_fixed_view_frames = -1
+EvalConfig.fixed_view_id = 16
+

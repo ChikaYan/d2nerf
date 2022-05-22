@@ -1,0 +1,44 @@
+# 000 single car old, but without viewdir
+
+include 'configs/decompose/train_kubric_template.gin'
+
+NerfiesDataSource.use_gt_camera = True
+
+StaticNerfModel.use_viewdirs = True
+DecomposeNerfModel.use_viewdirs = True
+DecomposeNerfModel.extra_renders = ('static', 'dynamic', 'blendw', 'mask') # 'shadow', 'regular_no_shadow'
+DecomposeNerfModel.blend_mode = 'add'
+DecomposeNerfModel.use_sample_at_infinity = True
+DecomposeNerfModel.use_shadow_model = False
+
+StaticNerfModel.use_viewdirs = False
+DecomposeNerfModel.use_viewdirs = False
+
+# TrainConfig.blendw_loss_weight_schedule = ('constant', 0.)
+TrainConfig.blendw_loss_weight_schedule = {
+  'type': 'exp_increase',
+  'initial_value': 0.00001,
+  'final_value': 0.1,
+  'num_steps': 75000 #%max_steps,
+}
+TrainConfig.blendw_loss_skewness = 1.25
+TrainConfig.blendw_ray_loss_weight = 0.
+TrainConfig.blendw_ray_loss_threshold = .5
+TrainConfig.use_ex_ray_entropy_loss = False
+TrainConfig.blendw_area_loss_weight = 0.0001
+TrainConfig.shadow_loss_threshold = 0.2
+TrainConfig.shadow_loss_weight = 0.
+TrainConfig.blendw_sample_loss_weight = 0.
+
+
+EvalConfig.niter_runtime_eval = 10000
+EvalConfig.nimg_runtime_eval = 5
+EvalConfig.ex_runtime_eval_targets = ()
+
+TrainConfig.save_every = 10000
+
+
+# Evaluation options
+EvalConfig.num_train_eval = -1
+EvalConfig.num_test_eval = 0
+

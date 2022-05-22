@@ -1,0 +1,32 @@
+# best soft
+
+include './configs/decompose/train_kubric_template.gin'
+
+NerfiesDataSource.use_gt_camera = True
+
+DecomposeNerfModel.use_sample_at_infinity = False
+
+StaticNerfModel.use_viewdirs = False
+
+DecomposeNerfModel.use_viewdirs = False
+
+TrainConfig.blendw_loss_weight_schedule = {
+  'type': 'exp_increase',
+  'initial_value': 1e-05,
+  'final_value': 1.0,
+  'num_steps': 100000,
+  }
+TrainConfig.blendw_loss_skewness = 2.0
+
+TrainConfig.blendw_area_loss_weight = 1e-05
+
+TrainConfig.sigma_s_ray_loss_weight = 0.0001
+
+EvalConfig.num_train_eval = -1
+
+EvalConfig.num_test_eval = 0
+
+max_steps = 100000
+
+EvalConfig.niter_runtime_eval = 25000
+

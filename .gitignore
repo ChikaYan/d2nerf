@@ -72,6 +72,8 @@ target/
 
 data/
 log/
+logs/
+anonymous_commit.sh
 log-archive/
 sbtach_log/
 

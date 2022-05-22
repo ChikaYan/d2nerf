@@ -1,18 +1,16 @@
-# HyperNeRF: A Higher-Dimensional Representation for Topologically Varying Neural Radiance Fields
+# D<sup>2</sup>NeRF: Self-Supervised Decoupling of Dynamic and Static Objects from a Monocular Video
 
-This is the code for "HyperNeRF: A Higher-Dimensional Representation for Topologically Varying Neural Radiance Fields".
+This is the code for "D<sup>2</sup>NeRF: Self-Supervised Decoupling of Dynamic and Static Objects from a Monocular Video".
 
-* [Project Page](https://hypernerf.github.io)
-* [Paper](https://arxiv.org/abs/2106.13228)
-* [Video](https://www.youtube.com/watch?v=qzgdE_ghkaI)
+* [Project Page](https://d2nerf.github.io/): https://d2nerf.github.io/
+<!-- * [Paper](coming): coming -->
 
-This codebase implements HyperNeRF using [JAX](https://github.com/google/jax),
-building on [JaxNeRF](https://github.com/google-research/google-research/tree/master/jaxnerf).
+This codebase implements D<sup>2</sup>NeRF based on [HyperNeRF](https://github.com/google/hypernerf) 
 
 
-## Demo
+<!-- ## Demo
 
-We provide an easy-to-get-started demo using Google Colab!
+Our code We provide an easy-to-get-started demo using Google Colab!
 
 These Colabs will allow you to train a basic version of our method using
 Cloud TPUs (or GPUs) on Google Colab.
@@ -26,7 +24,7 @@ on how to train on your own machine.
 | ----------- | ----------- |
 | Process a video into a dataset| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/nerfies/blob/main/notebooks/Nerfies_Capture_Processing.ipynb)|
 | Train HyperNeRF| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/hypernerf/blob/main/notebooks/HyperNeRF_Training.ipynb)|
-| Render HyperNeRF Videos| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/hypernerf/blob/main/notebooks/HyperNeRF_Render_Video.ipynb)|
+| Render HyperNeRF Videos| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/hypernerf/blob/main/notebooks/HyperNeRF_Render_Video.ipynb)| -->
 
 
 ## Setup
@@ -35,7 +33,7 @@ The code can be run under any environment with Python 3.8 and above.
 
 We recommend using [Miniconda](https://docs.conda.io/en/latest/miniconda.html) and setting up an environment:
 
-    conda create --name hypernerf python=3.8
+    conda create --name d2nerf python=3.8
 
 Next, install the required packages:
 
@@ -43,19 +41,21 @@ Next, install the required packages:
 
 Install the appropriate JAX distribution for your environment by  [following the instructions here](https://github.com/google/jax#installation). For example:
 
-    # For CUDA version 11.1
-    pip install --upgrade "jax[cuda111]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+    pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 
 
 ## Training
-After preparing a dataset, you can train a Nerfie by running:
+Please download our dataset [here](empty).
+
+After unzipping the data, you can train with the following command:
 
     export DATASET_PATH=/path/to/dataset
     export EXPERIMENT_PATH=/path/to/save/experiment/to
+    export CONFIG_PATH=configs/rl/001.gin
     python train.py \
         --base_folder $EXPERIMENT_PATH \
         --gin_bindings="data_dir='$DATASET_PATH'" \
-        --gin_configs configs/test_local.gin
+        --gin_configs $CONFIG_PATH
 
 To plot telemetry to Tensorboard and render checkpoints on the fly, also
 launch an evaluation job by running:
@@ -63,28 +63,40 @@ launch an evaluation job by running:
     python eval.py \
         --base_folder $EXPERIMENT_PATH \
         --gin_bindings="data_dir='$DATASET_PATH'" \
-        --gin_configs configs/test_local.gin
+        --gin_configs $CONFIG_PATH
+
+We also provide an example script at `train_eval_balloon.sh`
 
 The two jobs should use a mutually exclusive set of GPUs. This division allows the
 training job to run without having to stop for evaluation.
 
 
+
 ## Configuration
-* We use [Gin](https://github.com/google/gin-config) for configuration.
-* We provide a couple preset configurations.
+* Similiar to HyperNeRF, We use [Gin](https://github.com/google/gin-config) for configuration.
+* We provide a couple preset configurations:
+    - `configs/decompose/`: template configurations defining shared comfigurations for NeRF and HyperNeRF
+    - `configs/rl/`: configurations for experiments on real-life scenes. 
+    - `configs/rl/`: configurations for experiments on synthetic scenes. 
 * Please refer to `config.py` for documentation on what each configuration does.
-* Preset configs:
-    - `hypernerf_vrig_ds_2d.gin`: The deformable surface configuration for the validation rig (novel-view synthesis) experiments.
-    - `hypernerf_vrig_ap_2d.gin`: The axis-aligned plane configuration for the validation rig (novel-view synthesis) experiments.
-    - `hypernerf_interp_ds_2d.gin`: The deformable surface configuration for the interpolation experiments.
-    - `hypernerf_interp_ap_2d.gin`: The axis-aligned plane configuration for the interpolation experiments.
+
 
 
 ## Dataset
 The dataset uses the [same format as Nerfies](https://github.com/google/nerfies#datasets).
 
+For synthetic scenes generated using [Kubric](https://github.com/google-research/kubric), we also provide the worker script
+, named `script.py` under each folder.
 
-## Citing
+
+
+## Running on own dataset
+
+Because our code is fully compatiable with HyperNeRF dataset, thanks to them, you can simply use their [colab notebook](https://colab.research.google.com/github/google/nerfies/blob/main/notebooks/Nerfies_Capture_Processing.ipynb) to process your video and prepare a dataset for training.
+
+
+
+<!-- ## Citing
 If you find our work useful, please consider citing:
 ```BibTeX
 @article{park2021hypernerf,
@@ -99,4 +111,4 @@ If you find our work useful, please consider citing:
   year = {2021},
   articleno = {238},
 }
-```
+``` -->
