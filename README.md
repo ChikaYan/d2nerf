@@ -2,6 +2,8 @@
 
 This is the code for "D<sup>2</sup>NeRF: Self-Supervised Decoupling of Dynamic and Static Objects from a Monocular Video".
 
+![image](imgs/title_card.png)
+
 * [Project Page](https://d2nerf.github.io/): https://d2nerf.github.io/
 <!-- * [Paper](coming): coming -->
 
