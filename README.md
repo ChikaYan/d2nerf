@@ -91,6 +91,10 @@ For synthetic scenes generated using [Kubric](https://github.com/google-research
 , named `script.py` under each folder.
 
 
+## Pre-trained Model
+We include several pre-trained model checkpoints which can be downloaded from [here](https://drive.google.com/file/d/1dlwp52zg9Iik4uKuuumn5V6jbX1tiYeU/view?usp=sharing). Please use the `config.gin` files included in each subfolder for evaluation of the model checkpoints.
+
+
 
 ## Running on own dataset
 
