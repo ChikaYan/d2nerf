@@ -31,9 +31,8 @@ on how to train on your own machine.
 
 ## Setup
 The code can be run under any environment with Python 3.8 and above.
-(It may run with lower versions, but we have not tested it).
 
-We recommend using [Miniconda](https://docs.conda.io/en/latest/miniconda.html) and setting up an environment:
+Firstly, set up an environment via Miniconda or Anaconda:
 
     conda create --name d2nerf python=3.8
 
@@ -47,7 +46,7 @@ Install the appropriate JAX distribution for your environment by  [following the
 
 
 ## Training
-Please download our dataset [here](empty).
+Please download our dataset [here](https://drive.google.com/drive/folders/1qm-8P6UqrhimZXp4USzFPumyfu8l1vto?usp=sharing).
 
 After unzipping the data, you can train with the following command:
 
@@ -67,10 +66,7 @@ launch an evaluation job by running:
         --gin_bindings="data_dir='$DATASET_PATH'" \
         --gin_configs $CONFIG_PATH
 
-We also provide an example script at `train_eval_balloon.sh`
-
-The two jobs should use a mutually exclusive set of GPUs. This division allows the
-training job to run without having to stop for evaluation.
+We also provide an example script at `train_eval_balloon.sh`.
 
 
 
