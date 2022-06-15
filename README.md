@@ -72,10 +72,10 @@ We also provide an example script at `train_eval_balloon.sh`.
 
 ## Configuration
 * Similiar to HyperNeRF, We use [Gin](https://github.com/google/gin-config) for configuration.
-* We provide a couple preset configurations:
+* We provide a couple of preset configurations:
     - `configs/decompose/`: template configurations defining shared comfigurations for NeRF and HyperNeRF
     - `configs/rl/`: configurations for experiments on real-life scenes. 
-    - `configs/rl/`: configurations for experiments on synthetic scenes. 
+    - `configs/synthetic/`: configurations for experiments on synthetic scenes. 
 * Please refer to `config.py` for documentation on what each configuration does.
 
 
