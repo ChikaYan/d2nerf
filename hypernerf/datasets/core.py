@@ -215,7 +215,6 @@ class DataSource(abc.ABC):
                use_camera_id=False,
                use_warp_id=False,
                use_depth=False,
-               use_mask=False,
                mask_interest_region=False,
                use_relative_depth=False,
                use_time=False,
@@ -233,7 +232,6 @@ class DataSource(abc.ABC):
     self.use_warp_id = use_warp_id
     self.use_depth = use_depth
     self.use_time = use_time
-    self.use_mask = use_mask
     self.mask_interest_region = mask_interest_region
     self.use_relative_depth = use_relative_depth
     self.rng = np.random.RandomState(random_seed)
@@ -488,25 +486,6 @@ class DataSource(abc.ABC):
       out_dict[key] = jax.tree_map(_prepare_array, value)
 
     dataset = tf.data.Dataset.from_tensor_slices(out_dict)
-
-    if self.use_mask:
-      # separate two datasets, one with all rays that are on static background and the other for dynamic object
-      static_ray_ids = (out_dict['mask'][:,0]==0).nonzero()[0]
-      dynamic_ray_ids = np.setdiff1d(np.arange(num_rays), static_ray_ids)
-      static_dict = {}
-      dynamic_dict = {}
-      for key, value in out_dict.items():
-        static_dict[key] = jax.tree_map(lambda x: x[static_ray_ids], value)
-        dynamic_dict[key] = jax.tree_map(lambda x: x[dynamic_ray_ids], value)
-
-      static_data = tf.data.Dataset.from_tensor_slices(static_dict).repeat().batch(batch_size)
-      dynamic_data = tf.data.Dataset.from_tensor_slices(dynamic_dict).repeat().batch(batch_size)
-
-      zipped = tf.data.Dataset.zip((static_data, dynamic_data))
-      dataset = zipped.flat_map(lambda x0, x1: tf.data.Dataset.from_tensors(x0).concatenate(tf.data.Dataset.from_tensors(x1)))
-      dataset = dataset.unbatch()
-
-      # dataset = tf.data.Dataset.from_tensor_slices(static_dict)
 
     return dataset
 

@@ -21,13 +21,8 @@ TrainConfig.blendw_loss_weight_schedule = {
   }
 TrainConfig.blendw_loss_skewness = 3.0
 
-TrainConfig.blendw_ray_loss_weight = 0.
-TrainConfig.blendw_ray_loss_threshold = .5
 TrainConfig.use_ex_ray_entropy_loss = False
 TrainConfig.blendw_area_loss_weight = 0.0001
-TrainConfig.shadow_loss_threshold = 0.2
-TrainConfig.shadow_loss_weight = 0.
-TrainConfig.blendw_sample_loss_weight = 0.
 TrainConfig.sigma_s_ray_loss_weight = 0.001
 
 DecomposeNerfModel.separate_shadow_model = True
@@ -37,7 +32,6 @@ TrainConfig.shadow_r_loss_weight = {
   'final_value': 0.1,
   'num_steps': 100000 #%max_steps,
 }
-TrainConfig.shadow_r_l2_loss_weight = 0.
 DecomposeNerfModel.sigma_threshold = 0.1
 DecomposeNerfModel.shadow_r_shift = 0.
 

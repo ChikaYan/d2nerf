@@ -19,3 +19,5 @@ tqdm==4.62.2
 keras==2.6.0
 imageio-ffmpeg
 sklearn
+tensorflow_hub
+lpips

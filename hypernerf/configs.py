@@ -102,43 +102,17 @@ class TrainConfig:
   elastic_loss_type: str = 'log_svals'
   # Whether to use background regularization.
   use_background_loss: bool = False
-  # Whether to use background decompose loss. This loss is only defined for DecomposeNerfModel
-  use_bg_decompose_loss: bool = False
-  # The weight for the background loss.
   background_loss_weight: float = 0.0
-  bg_decompose_loss_weight: float = 0.0
   # Adaptive blendw loss weight setting
   blendw_loss_weight_schedule: Optional[ScheduleDef] = None
-  # Adaptive blendw loss weight setting
-  blendw_pixel_loss_weight_schedule: Optional[ScheduleDef] = immutabledict.immutabledict({
-      'type': 'constant',
-      'value': 0.0,
-  })
   blendw_loss_skewness: float = 1.0
-  blendw_pixel_loss_skewness: float = 1.0
-  force_blendw_loss_weight: float = 1.0
-  blendw_ray_loss_weight: float = 0.0
   sigma_s_ray_loss_weight: float = 0.0
-  sigma_d_ray_loss_weight: float = 0.0
   blendw_area_loss_weight: float = 0.0
-  blendw_ray_loss_threshold: float = 1.0
-  shadow_loss_threshold: float = 0.2
-  shadow_loss_weight: float = 0.0
-  blendw_sample_loss_weight: float = 0.0
   shadow_r_loss_weight: Optional[ScheduleDef] = immutabledict.immutabledict({
       'type': 'constant',
       'value': 0.0,
   })
-  cubic_shadow_r_loss_weight_schedule: Optional[ScheduleDef] = immutabledict.immutabledict({
-      'type': 'constant',
-      'value': 0.0,
-  })
-  shadow_r_consistency_loss_weight_schedule: Optional[ScheduleDef] = immutabledict.immutabledict({
-      'type': 'constant',
-      'value': 0.0,
-  })
-  shadow_r_l2_loss_weight: float = 0.0
-  blendw_spatial_loss_weight: float = 0.0
+
   # The batch size for background regularization loss.
   background_points_batch_size: int = 16384
   # Whether to use the warp reg loss.
@@ -177,21 +151,9 @@ class TrainConfig:
   # Use decompose NeRF or not
   use_decompose_nerf: bool = False
 
-  # Initialize the static model for several iterations first
-  # During this, dynamic model would be frozen
-  freeze_dynamic_steps: int = 0
-  # Fix blendw to certain values for a fixed number of iters
-  fix_blendw_steps: int = 0
-  # Encourage the predicted blendw to be close to a certain value for some iters
-  # This is different to fixing the value
-  force_blendw_steps: int = 0
-  fix_blendw_value: float = 0.25
-
-  # Use provided dynmaic object mask to separately train the dynamic and static component
-  use_mask_sep_train: bool = False
-
   # Regularize the decompose model using rays combined with different time frame
   use_ex_ray_entropy_loss: bool = False
+  use_lap_blendw_loss: bool = False
 
 @gin.configurable()
 @dataclasses.dataclass
@@ -234,8 +196,6 @@ class EvalConfig:
   # Evalution setting for fixed time circulating camera experiments
   novel_view_eval: bool = False
   
-  # test_time_id: int = 0
-
   # Evalution setting for fixed view varying time experiments
   fix_view_eval: bool = False
   # Number of views rendered for each fixed time frame

@@ -32,8 +32,6 @@ TrainConfig.log_every = 100
 TrainConfig.histogram_every = 100
 TrainConfig.save_every = 2000
 TrainConfig.use_background_loss = False
-TrainConfig.use_bg_decompose_loss = False
-TrainConfig.bg_decompose_loss_weight = 1.0
 # TrainConfig.blendw_loss_weight = 0.001
 # TrainConfig.blendw_loss_weight_schedule = ('constant', 0.001)
 TrainConfig.blendw_loss_weight_schedule = {
@@ -43,20 +41,9 @@ TrainConfig.blendw_loss_weight_schedule = {
   'num_steps': 200000,
 }
 TrainConfig.blendw_loss_skewness = 1.25
-TrainConfig.blendw_pixel_loss_weight_schedule = ('constant', 0.0)
-TrainConfig.blendw_ray_loss_weight = 0.001
-TrainConfig.blendw_ray_loss_threshold = .5
 TrainConfig.use_ex_ray_entropy_loss = True
 TrainConfig.blendw_area_loss_weight = 0.0001
-TrainConfig.shadow_loss_threshold = 0.2
-TrainConfig.shadow_loss_weight = 0.
-TrainConfig.blendw_sample_loss_weight = 0.
 
-# initialize static model for some iterations first
-TrainConfig.fix_blendw_steps = 0
-TrainConfig.force_blendw_steps = 0
-TrainConfig.force_blendw_loss_weight = .1
-TrainConfig.fix_blendw_value = 0.15
 
 DecomposeNerfModel.blend_mode = 'nsff'
 DecomposeNerfModel.extra_renders = ('static_full', 'dynamic', 'blendw')

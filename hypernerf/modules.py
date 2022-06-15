@@ -216,7 +216,6 @@ class BlendwNerfMLP(NerfMLP):
   blendw_branch_depth: int = 0
   blendw_branch_width: int = 128
   blendw_channels: int = 1
-  blendw_output_depth: int = -1
 
   activation: types.Activation = nn.relu
   norm: Optional[Any] = None
@@ -253,9 +252,6 @@ class BlendwNerfMLP(NerfMLP):
       c = c.reshape([-1, c.shape[-1]])
       return c
 
-    if self.blendw_output_depth == -1:
-      self.blendw_output_depth = self.trunk_depth
-
     alpha_channels = self.alpha_channels
     if self.output_shadow_r:
       alpha_channels = self.alpha_channels + 1
@@ -287,10 +283,6 @@ class BlendwNerfMLP(NerfMLP):
     inputs = x
     blendw = None
     for i in range(self.trunk_depth):
-      if i == self.blendw_output_depth:
-        # output blendw
-        blendw = blendw_mlp(x)
-
       layer = nn.Dense(
           self.trunk_width,
           use_bias=True,
@@ -324,8 +316,7 @@ class BlendwNerfMLP(NerfMLP):
       rgb_input = x
     rgb = rgb_mlp(rgb_input)
 
-    if blendw is None:
-      blendw = jnp.zeros_like(alpha)
+    blendw = jnp.zeros_like(alpha)
 
     ret = {
         'rgb': rgb.reshape((-1, num_samples, self.rgb_channels)),
