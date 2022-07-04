@@ -76,6 +76,7 @@ We also provide an example script at `train_eval_balloon.sh`.
     - `configs/decompose/`: template configurations defining shared comfigurations for NeRF and HyperNeRF
     - `configs/rl/`: configurations for experiments on real-life scenes. 
     - `configs/synthetic/`: configurations for experiments on synthetic scenes. 
+* Please refer to the paper appendix on arxiv to find out the configurations applied to each scene.
 * Please refer to `config.py` for documentation on what each configuration does.
 
 
@@ -87,8 +88,10 @@ For synthetic scenes generated using [Kubric](https://github.com/google-research
 , named `script.py` under each folder.
 
 
+<!--
 ## Pre-trained Model
-We include several pre-trained model checkpoints which can be downloaded from [here](https://drive.google.com/file/d/1dlwp52zg9Iik4uKuuumn5V6jbX1tiYeU/view?usp=sharing). Please use the `config.gin` files included in each subfolder for evaluation of the model checkpoints.
+We include several pre-trained model checkpoints which can be downloaded from [here](https://drive.google.com/file/d/1dlwp52zg9Iik4uKuuumn5V6jbX1tiYeU/view?usp=sharing). Please use the `config.gin` files included in each subfolder for evaluation of the model checkpoints. 
+ -->
 
 
 
