@@ -104,6 +104,7 @@ def render_image(
       # pylint: disable=cell-var-from-loop
       chunk_pad_fn = lambda x: jnp.pad(x, ((0, padding), (0, 0)), mode='edge')
       chunk_rays_dict = tree_util.tree_map(chunk_pad_fn, chunk_rays_dict)
+      num_chunk_rays = chunk_rays_dict['origins'].shape[0]
     else:
       padding = 0
     # After padding the number of chunk_rays is always divisible by
