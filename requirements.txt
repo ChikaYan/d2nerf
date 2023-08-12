@@ -3,8 +3,8 @@ flax==0.3.6
 gin-config @ git+https://github.com/google/gin-config@243ba87b3fcfeb2efb4a920b8f19679b61a6f0dc
 imageio==2.9.0
 immutabledict==2.2.0
-jax==0.2.26
-jaxlib==0.1.75
+jax==0.2.20
+jaxlib==0.1.71+cuda111
 Markdown==3.3.4
 matplotlib==3.4.3
 numpy
@@ -21,5 +21,5 @@ imageio-ffmpeg==0.4.7
 lpips==0.1.4
 tensorboard==2.6.0
 protobuf==3.20.1
-sklearn
+scikit-learn
 tensorflow_hub
